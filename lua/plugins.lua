@@ -11,15 +11,18 @@ return {
   },
   { -- LSP configuration
     "neovim/nvim-lspconfig",
-    config = function()
-      local lspconfig = require("lspconfig")
-      -- Rust Analyzer
-      lspconfig.rust_analyzer.setup {
-        settings = {
-          ["rust-analyzer"] = {},
-        },
-      }
-    end,
+  },
+  { -- LSP autocomplete
+    "hrsh7th/cmp-nvim-lsp",
+  },
+  "hrsh7th/cmp-buffer",
+  "hrsh7th/cmp-path",
+  "hrsh7th/cmp-cmdline",
+  { -- Autocomplete
+    "hrsh7th/nvim-cmp",
+  },
+  { -- Snippets
+    "L3MON4D3/LuaSnip",
   },
   { -- Treesitter
     "nvim-treesitter/nvim-treesitter",
@@ -60,6 +63,10 @@ return {
     "numToStr/Comment.nvim",
     opts = {
       toggler = {
+        line = "<leader>cl", -- Comment line
+        block = "<leader>cb", -- Comment block
+      },
+      opleader = {
         line = "<leader>cl", -- Comment line
         block = "<leader>cb", -- Comment block
       },
