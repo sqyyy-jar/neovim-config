@@ -23,15 +23,19 @@ return {
   { -- Snippets
     "L3MON4D3/LuaSnip",
   },
+  "p00f/nvim-ts-rainbow",
   { -- Treesitter
     "nvim-treesitter/nvim-treesitter",
     config = function()
       require("nvim-treesitter.configs").setup {
         -- Languages
-        ensure_installed = { "rust", "lua", "markdown", "markdown_inline" },
+        ensure_installed = { "rust", "lua", "markdown", "markdown_inline", "scheme" },
         highlight = {
           enable = true,
           additional_vim_regex_highlighting = false,
+        },
+        rainbow = {
+          enable = true,
         },
       }
     end,
