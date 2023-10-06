@@ -35,6 +35,8 @@ keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, {}) -- Code actions
 keymap.set("n", "<leader>cx", telescope.diagnostics, {}) -- Diagnostics
 local cmp = require("cmp")
 keymap.set("i", "<C-Space>", cmp.complete, {}) -- Autocomplete
+keymap.set("n", "<bar>", vim.cmd.vsplit, {})
+keymap.set("n", "<bslash>", vim.cmd.split, {})
 
 -- LSP
 -- Rust analyzer
