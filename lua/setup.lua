@@ -137,5 +137,11 @@ cmp.setup {
     },
 }
 
+-- Blink
+vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+    pattern = "*.blink",
+    command = "set filetype=blink",
+})
+
 -- Other
 opt.clipboard = "unnamedplus" -- Always use system clipboard
