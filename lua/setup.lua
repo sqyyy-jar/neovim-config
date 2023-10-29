@@ -2,7 +2,7 @@ local opt = vim.opt
 local keymap = vim.keymap
 
 -- Visuals
-vim.cmd.colorscheme("tokyonight-night")
+vim.cmd.colorscheme("habamax")
 opt.number = true
 opt.relativenumber = true
 
