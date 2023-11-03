@@ -1,4 +1,5 @@
 local opt = vim.opt
+local api = vim.api
 local keymap = vim.keymap
 
 -- Visuals
@@ -48,8 +49,17 @@ lsp.rust_analyzer.setup {
 }
 -- Lua
 lsp.lua_ls.setup {}
+-- Scala
+local metals = require("metals").bare_config()
+metals.capabilities = capabilities
+api.nvim_create_autocmd("FileType", {
+    pattern = { "scala", "sbt" },
+    callback = function()
+        require("metals").initialize_or_attach(metals)
+    end,
+})
 -- Format-on-save
-vim.api.nvim_create_autocmd("BufWritePre", {
+api.nvim_create_autocmd("BufWritePre", {
     callback = function() vim.lsp.buf.format() end,
 })
 
@@ -138,7 +148,7 @@ cmp.setup {
 }
 
 -- Blink
-vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
     pattern = "*.blink",
     command = "set filetype=blink",
 })

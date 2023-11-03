@@ -94,4 +94,12 @@ return {
             },
         },
     },
+    {
+        "scalameta/nvim-metals",
+        dependencies = { "nvim-lua/plenary.nvim" },
+        config = function()
+            local metals = require("metals").bare_config()
+            metals.capabilities = require("cmp_nvim_lsp").default_capabilities()
+        end,
+    },
 }
