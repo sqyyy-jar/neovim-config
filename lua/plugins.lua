@@ -5,7 +5,7 @@ return {
         config = function()
             require("github-theme").setup {
                 options = {
-                    transparent = true,
+                    transparent = false,
                 },
             }
         end,
@@ -95,11 +95,24 @@ return {
         },
     },
     {
+        -- Metals
         "scalameta/nvim-metals",
         dependencies = { "nvim-lua/plenary.nvim" },
         config = function()
             local metals = require("metals").bare_config()
             metals.capabilities = require("cmp_nvim_lsp").default_capabilities()
         end,
+    },
+    {
+        -- Transparent background
+        "xiyaowong/transparent.nvim",
+        config = function()
+            require("transparent").setup {
+                groups = {
+                    "Normal", "LineNr",
+                },
+            }
+        end,
+        lazy = false,
     },
 }
