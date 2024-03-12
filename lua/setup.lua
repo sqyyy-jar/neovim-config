@@ -3,7 +3,7 @@ local api = vim.api
 local keymap = vim.keymap
 
 -- Visuals
-vim.cmd.colorscheme("habamax")
+vim.cmd.colorscheme("bamboo")
 opt.number = true
 opt.relativenumber = true
 
@@ -44,9 +44,15 @@ keymap.set("n", "<bslash>", vim.cmd.split, {})
 lsp.rust_analyzer.setup {
     capabilities = capabilities,
     settings = {
-        ["rust-analyzer"] = {},
+        ["rust-analyzer"] = {
+            check = {
+                command = "clippy",
+            },
+        },
     },
 }
+-- Gleam
+lsp.gleam.setup {}
 -- Lua
 lsp.lua_ls.setup {}
 -- Scala

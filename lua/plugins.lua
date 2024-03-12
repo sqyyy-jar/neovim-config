@@ -1,31 +1,25 @@
 return {
-    {
-        -- GitHub colorschemes
-        "projekt0n/github-nvim-theme",
-        config = function()
-            require("github-theme").setup {
-                options = {
-                    transparent = false,
-                },
-            }
-        end,
-    },
+    -- GitHub colorschemes
+    "projekt0n/github-nvim-theme",
     -- Tokyo Night colorschemes
     "folke/tokyonight.nvim",
-    { -- LSP configuration
-        "neovim/nvim-lspconfig",
-    },
+    -- Kanagawa colorschemes
+    "rebelot/kanagawa.nvim",
+    -- Rosepine colorschemes
+    "rose-pine/neovim",
+    -- Bamboo colorschemes
+    "ribru17/bamboo.nvim",
+    -- LSP configuration
+    "neovim/nvim-lspconfig",
     -- More autocomplete
     "hrsh7th/cmp-nvim-lsp",
     "hrsh7th/cmp-buffer",
     "hrsh7th/cmp-path",
     "hrsh7th/cmp-cmdline",
-    { -- Autocomplete
-        "hrsh7th/nvim-cmp",
-    },
-    { -- Snippets
-        "L3MON4D3/LuaSnip",
-    },
+    -- Autocomplete
+    "hrsh7th/nvim-cmp",
+    -- Snippets
+    "L3MON4D3/LuaSnip",
     "p00f/nvim-ts-rainbow",
     {
         -- Treesitter
