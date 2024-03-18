@@ -1,14 +1,12 @@
 return {
-    -- GitHub colorschemes
-    "projekt0n/github-nvim-theme",
-    -- Tokyo Night colorschemes
-    "folke/tokyonight.nvim",
     -- Kanagawa colorschemes
     "rebelot/kanagawa.nvim",
-    -- Rosepine colorschemes
-    "rose-pine/neovim",
     -- Bamboo colorschemes
     "ribru17/bamboo.nvim",
+    -- Jellybeans colorschemes
+    "nanotech/jellybeans.vim",
+    -- Despacito colorschemes
+    "AlessandroYorba/Despacio",
     -- LSP configuration
     "neovim/nvim-lspconfig",
     -- More autocomplete
@@ -20,7 +18,6 @@ return {
     "hrsh7th/nvim-cmp",
     -- Snippets
     "L3MON4D3/LuaSnip",
-    "p00f/nvim-ts-rainbow",
     {
         -- Treesitter
         "nvim-treesitter/nvim-treesitter",
@@ -43,9 +40,6 @@ return {
                 highlight = {
                     enable = true,
                     additional_vim_regex_highlighting = false,
-                },
-                rainbow = {
-                    enable = true,
                 },
             }
         end,

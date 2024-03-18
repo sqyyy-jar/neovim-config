@@ -3,7 +3,7 @@ local api = vim.api
 local keymap = vim.keymap
 
 -- Visuals
-vim.cmd.colorscheme("bamboo")
+vim.cmd.colorscheme("jellybeans")
 opt.number = true
 opt.relativenumber = true
 
