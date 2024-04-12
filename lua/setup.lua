@@ -3,7 +3,7 @@ local api = vim.api
 local keymap = vim.keymap
 
 -- Visuals
-vim.cmd.colorscheme("jellybeans")
+vim.cmd.colorscheme("kanagawa-dragon")
 opt.number = true
 opt.relativenumber = true
 
@@ -51,8 +51,8 @@ lsp.rust_analyzer.setup {
         },
     },
 }
--- Gleam
-lsp.gleam.setup {}
+-- Zig
+lsp.zls.setup {}
 -- Lua
 lsp.lua_ls.setup {}
 -- Scala

@@ -7,6 +7,10 @@ return {
     "nanotech/jellybeans.vim",
     -- Despacito colorschemes
     "AlessandroYorba/Despacio",
+    -- Two-Firewatch colorschemes
+    "rakr/vim-two-firewatch",
+    -- Nightfox colorschemes
+    "EdenEast/nightfox.nvim",
     -- LSP configuration
     "neovim/nvim-lspconfig",
     -- More autocomplete
@@ -48,6 +52,19 @@ return {
         -- Telescope
         "nvim-telescope/telescope.nvim",
         dependencies = { "nvim-lua/plenary.nvim", "nvim-treesitter/nvim-treesitter" },
+        config = function()
+            require("telescope").setup {
+                pickers = {
+                    find_files = {
+                        find_command = {
+                            "rg",
+                            "--files",
+                            "--no-require-git",
+                        },
+                    },
+                },
+            }
+        end,
     },
     { -- Editorconfig
         "editorconfig/editorconfig-vim",
