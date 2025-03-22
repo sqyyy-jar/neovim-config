@@ -3,14 +3,11 @@ local api = vim.api
 local keymap = vim.keymap
 
 -- Visuals
-vim.cmd.colorscheme("kanagawa-dragon")
+vim.cmd.colorscheme("darkrose")
 opt.number = true
 opt.relativenumber = true
-
--- Code style
-opt.expandtab = true
-opt.tabstop = 4
-opt.shiftwidth = 4
+opt.mouse = ""
+vim.g.c_syntax_for_h = 1
 
 -- Autocomplete
 opt.completeopt = { 'menu', 'menuone', 'noselect' }
@@ -41,6 +38,7 @@ keymap.set("n", "<bslash>", vim.cmd.split, {})
 
 -- LSP
 -- Rust analyzer
+--[[
 lsp.rust_analyzer.setup {
     capabilities = capabilities,
     settings = {
@@ -51,22 +49,60 @@ lsp.rust_analyzer.setup {
         },
     },
 }
+--]]
+for _, method in ipairs({ "textDocument/diagnostic", "workspace/diagnostic" }) do
+    local default_diagnostic_handler = vim.lsp.handlers[method]
+    vim.lsp.handlers[method] = function(err, result, context, config)
+        if err ~= nil and err.code == -32802 then
+            return
+        end
+        return default_diagnostic_handler(err, result, context, config)
+    end
+end
 -- Zig
 lsp.zls.setup {}
 -- Lua
 lsp.lua_ls.setup {}
--- Scala
-local metals = require("metals").bare_config()
-metals.capabilities = capabilities
-api.nvim_create_autocmd("FileType", {
-    pattern = { "scala", "sbt" },
-    callback = function()
-        require("metals").initialize_or_attach(metals)
-    end,
-})
+-- Clojure
+lsp.clojure_lsp.setup {}
+-- Go
+lsp.gopls.setup {}
+-- F#
+lsp.fsautocomplete.setup {}
+-- OCaml
+lsp.ocamllsp.setup {}
+-- Arduino
+lsp.arduino_language_server.setup {}
+-- Julia
+lsp.julials.setup {}
+-- C
+lsp.clangd.setup {}
+-- Gleam
+lsp.gleam.setup {}
 -- Format-on-save
 api.nvim_create_autocmd("BufWritePre", {
     callback = function() vim.lsp.buf.format() end,
+})
+-- Parser-Testing
+api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
+    pattern = { "*.ptx" },
+    callback = function() vim.opt.filetype = "ptx" end,
+})
+api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
+    pattern = { "*.lm" },
+    callback = function() vim.opt.filetype = "lumina" end,
+})
+api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
+    pattern = { "*.fml" },
+    callback = function() vim.opt.filetype = "fml" end,
+})
+api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
+    pattern = { "*.asz" },
+    callback = function() vim.opt.filetype = "asz" end,
+})
+api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
+    pattern = { "*.hext" },
+    callback = function() vim.opt.filetype = "hext" end,
 })
 
 -- Autocomplete
@@ -153,11 +189,5 @@ cmp.setup {
     },
 }
 
--- Blink
-api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
-    pattern = "*.blink",
-    command = "set filetype=blink",
-})
-
 -- Other
-opt.clipboard = "unnamedplus" -- Always use system clipboard
+--opt.clipboard = "unnamedplus" -- Always use system clipboard

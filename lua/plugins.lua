@@ -1,16 +1,24 @@
 return {
-    -- Kanagawa colorschemes
-    "rebelot/kanagawa.nvim",
-    -- Bamboo colorschemes
-    "ribru17/bamboo.nvim",
-    -- Jellybeans colorschemes
-    "nanotech/jellybeans.vim",
-    -- Despacito colorschemes
-    "AlessandroYorba/Despacio",
-    -- Two-Firewatch colorschemes
-    "rakr/vim-two-firewatch",
-    -- Nightfox colorschemes
-    "EdenEast/nightfox.nvim",
+    -- "rebelot/kanagawa.nvim",
+    -- "ribru17/bamboo.nvim",
+    -- "nanotech/jellybeans.vim",
+    -- "rakr/vim-two-firewatch",
+    -- "rafi/awesome-vim-colorschemes",
+    -- "zeis/vim-kolor",
+    -- "scottmckendry/cyberdream.nvim",
+    -- "savq/melange-nvim",
+    -- "ramojus/mellifluous.nvim",
+    -- "Mofiqul/adwaita.nvim",
+    -- "GustavoPrietoP/doom-themes.nvim",
+    -- "nyoom-engineering/oxocarbon.nvim",
+    -- "fenetikm/falcon",
+    "Alligator/accent.vim",
+    "water-sucks/darkrose.nvim",
+    { "mcchrish/zenbones.nvim", dependencies = { "rktjmp/lush.nvim" } },
+    -- FASM
+    "fedorenchik/fasm.vim",
+    -- Zig
+    "ziglang/zig.vim",
     -- LSP configuration
     "neovim/nvim-lspconfig",
     -- More autocomplete
@@ -22,6 +30,12 @@ return {
     "hrsh7th/nvim-cmp",
     -- Snippets
     "L3MON4D3/LuaSnip",
+    -- Rustaceanvim
+    {
+        "mrcjkb/rustaceanvim",
+        version = "^5",
+        lazy = false,
+    },
     {
         -- Treesitter
         "nvim-treesitter/nvim-treesitter",
@@ -56,10 +70,11 @@ return {
             require("telescope").setup {
                 pickers = {
                     find_files = {
-                        find_command = {
-                            "rg",
-                            "--files",
-                            "--no-require-git",
+                        find_command = { "rg", "--files", "--no-require-git" },
+                    },
+                    live_grep = {
+                        vimgrep_arguments = {
+                            "rg", "--color=never", "--no-heading", "--with-filename", "--line-number", "--column", "--smart-case", "--no-require-git"
                         },
                     },
                 },
@@ -80,7 +95,11 @@ return {
             require("lualine").setup {
                 options = {
                     icons_enabled = false,
-                    theme = "wombat",
+                    -- theme = "wombat",
+                    -- theme = "codedark",
+                    theme = "16color",
+                    component_separators = { left = "", right = "" },
+                    section_separators = { left = "", right = "" },
                 },
             }
         end,
@@ -98,15 +117,6 @@ return {
                 block = "<leader>cb", -- Comment block
             },
         },
-    },
-    {
-        -- Metals
-        "scalameta/nvim-metals",
-        dependencies = { "nvim-lua/plenary.nvim" },
-        config = function()
-            local metals = require("metals").bare_config()
-            metals.capabilities = require("cmp_nvim_lsp").default_capabilities()
-        end,
     },
     {
         -- Transparent background
