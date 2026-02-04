@@ -1,16 +1,13 @@
-local opt = vim.opt
-local api = vim.api
-local keymap = vim.keymap
-
--- Visuals
-vim.cmd.colorscheme("darkrose")
-opt.number = true
-opt.relativenumber = true
-opt.mouse = ""
+vim.cmd.colorscheme("midnight")
+vim.opt.number = true
+vim.opt.relativenumber = true
+vim.opt.mouse = ""
 vim.g.c_syntax_for_h = 1
+vim.opt.winborder = "bold"
+vim.opt.signcolumn = "yes"
 
 -- Autocomplete
-opt.completeopt = { 'menu', 'menuone', 'noselect' }
+vim.opt.completeopt = { 'menu', 'menuone', 'noselect' }
 local lsp = require("lspconfig")
 local lsp_defaults = lsp.util.default_config
 lsp_defaults.capabilities = vim.tbl_deep_extend(
@@ -21,35 +18,24 @@ lsp_defaults.capabilities = vim.tbl_deep_extend(
 
 -- Keybinds
 local telescope = require("telescope.builtin")
-keymap.set("n", "<leader>ff", telescope.find_files, {})    -- Find files
-keymap.set("n", "<leader>f/", telescope.live_grep, {})     -- Find in files
-keymap.set("n", "<leader>,", telescope.buffers, {})        -- Find buffer
-keymap.set("n", "<leader>fh", telescope.help_tags, {})     -- Find help
+vim.keymap.set("n", "<leader>ff", telescope.find_files, {})      -- Find files
+vim.keymap.set("n", "<leader>f/", telescope.live_grep, {})       -- Find in files
+vim.keymap.set("n", "<leader>,", telescope.buffers, {})          -- Find buffer
+vim.keymap.set("n", "<leader>fh", telescope.help_tags, {})       -- Find help
 local tree = require("nvim-tree.api")
-keymap.set("n", "<leader>ft", tree.tree.toggle, {})        -- File explorer
-keymap.set("n", "<leader>ch", vim.lsp.buf.hover, {})       -- Hover
-keymap.set("n", "<leader>cr", vim.lsp.buf.rename, {})      -- Rename
-keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, {}) -- Code actions
-keymap.set("n", "<leader>cx", telescope.diagnostics, {})   -- Diagnostics
+vim.keymap.set("n", "<leader>ft", tree.tree.toggle, {})          -- File explorer
+vim.keymap.set("n", "<leader>cd", vim.lsp.buf.definition, {})    -- Definition
+vim.keymap.set("n", "<leader>cr", vim.lsp.buf.rename, {})        -- Rename
+vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, {})   -- Code actions
+vim.keymap.set("n", "<leader>cx", telescope.diagnostics, {})     -- Diagnostics
+vim.keymap.set("n", "<leader>cl", vim.diagnostic.open_float, {}) -- Diagnostics
 local cmp = require("cmp")
-keymap.set("i", "<C-Space>", cmp.complete, {})             -- Autocomplete
-keymap.set("n", "<bar>", vim.cmd.vsplit, {})
-keymap.set("n", "<bslash>", vim.cmd.split, {})
+vim.keymap.set("i", "<C-Space>", cmp.complete, {})               -- Autocomplete
+vim.keymap.set("n", "<bar>", vim.cmd.vsplit, {})
+vim.keymap.set("n", "<bslash>", vim.cmd.split, {})
 
 -- LSP
 -- Rust analyzer
---[[
-lsp.rust_analyzer.setup {
-    capabilities = capabilities,
-    settings = {
-        ["rust-analyzer"] = {
-            check = {
-                command = "clippy",
-            },
-        },
-    },
-}
---]]
 for _, method in ipairs({ "textDocument/diagnostic", "workspace/diagnostic" }) do
     local default_diagnostic_handler = vim.lsp.handlers[method]
     vim.lsp.handlers[method] = function(err, result, context, config)
@@ -63,46 +49,18 @@ end
 lsp.zls.setup {}
 -- Lua
 lsp.lua_ls.setup {}
--- Clojure
-lsp.clojure_lsp.setup {}
--- Go
-lsp.gopls.setup {}
--- F#
-lsp.fsautocomplete.setup {}
 -- OCaml
 lsp.ocamllsp.setup {}
--- Arduino
-lsp.arduino_language_server.setup {}
--- Julia
-lsp.julials.setup {}
 -- C
 lsp.clangd.setup {}
--- Gleam
-lsp.gleam.setup {}
+-- JavaScript
+-- lsp.biome.setup {}
+lsp.ts_ls.setup {}
+lsp.svelte.setup {}
+lsp.cssls.setup {}
 -- Format-on-save
-api.nvim_create_autocmd("BufWritePre", {
+vim.api.nvim_create_autocmd("BufWritePre", {
     callback = function() vim.lsp.buf.format() end,
-})
--- Parser-Testing
-api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
-    pattern = { "*.ptx" },
-    callback = function() vim.opt.filetype = "ptx" end,
-})
-api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
-    pattern = { "*.lm" },
-    callback = function() vim.opt.filetype = "lumina" end,
-})
-api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
-    pattern = { "*.fml" },
-    callback = function() vim.opt.filetype = "fml" end,
-})
-api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
-    pattern = { "*.asz" },
-    callback = function() vim.opt.filetype = "asz" end,
-})
-api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
-    pattern = { "*.hext" },
-    callback = function() vim.opt.filetype = "hext" end,
 })
 
 -- Autocomplete
@@ -188,6 +146,3 @@ cmp.setup {
         end, { 'i', 's' }),
     },
 }
-
--- Other
---opt.clipboard = "unnamedplus" -- Always use system clipboard

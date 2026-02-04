@@ -1,20 +1,5 @@
 return {
-    -- "rebelot/kanagawa.nvim",
-    -- "ribru17/bamboo.nvim",
-    -- "nanotech/jellybeans.vim",
-    -- "rakr/vim-two-firewatch",
-    -- "rafi/awesome-vim-colorschemes",
-    -- "zeis/vim-kolor",
-    -- "scottmckendry/cyberdream.nvim",
-    -- "savq/melange-nvim",
-    -- "ramojus/mellifluous.nvim",
-    -- "Mofiqul/adwaita.nvim",
-    -- "GustavoPrietoP/doom-themes.nvim",
-    -- "nyoom-engineering/oxocarbon.nvim",
-    -- "fenetikm/falcon",
-    "Alligator/accent.vim",
-    "water-sucks/darkrose.nvim",
-    { "mcchrish/zenbones.nvim", dependencies = { "rktjmp/lush.nvim" } },
+    "dasupradyumna/midnight.nvim",
     -- FASM
     "fedorenchik/fasm.vim",
     -- Zig
@@ -88,46 +73,17 @@ return {
         "nvim-tree/nvim-tree.lua",
     },
     {
-        -- Lua line (status line)
-        "nvim-lualine/lualine.nvim",
-        dependencies = { "nvim-tree/nvim-web-devicons" },
-        config = function()
-            require("lualine").setup {
-                options = {
-                    icons_enabled = false,
-                    -- theme = "wombat",
-                    -- theme = "codedark",
-                    theme = "16color",
-                    component_separators = { left = "", right = "" },
-                    section_separators = { left = "", right = "" },
-                },
-            }
-        end,
-    },
-    {
         -- Comments
         "numToStr/Comment.nvim",
         opts = {
             toggler = {
-                line = "<leader>cl",  -- Comment line
+                line = "<leader>c/",  -- Comment line
                 block = "<leader>cb", -- Comment block
             },
             opleader = {
-                line = "<leader>cl",  -- Comment line
+                line = "<leader>c/",  -- Comment line
                 block = "<leader>cb", -- Comment block
             },
         },
-    },
-    {
-        -- Transparent background
-        "xiyaowong/transparent.nvim",
-        config = function()
-            require("transparent").setup {
-                groups = {
-                    "Normal", "LineNr",
-                },
-            }
-        end,
-        lazy = false,
     },
 }
