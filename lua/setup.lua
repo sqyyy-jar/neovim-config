@@ -1,3 +1,5 @@
+vim.g.mapleader = " "
+
 -- vim.cmd.colorscheme("mellifluous")
 vim.cmd.colorscheme("noctishc")
 vim.opt.number = true
@@ -13,9 +15,7 @@ vim.api.nvim_create_autocmd({ "TermOpen" }, {
         vim.api.nvim_set_option_value("statuscolumn", "", { scope = "local" })
     end,
 })
-
--- Autocomplete
-vim.opt.completeopt = { 'menu', 'menuone', 'noselect' }
+vim.opt.completeopt = { "menu", "menuone", "noselect" }
 
 -- Keybinds
 local telescope = require("telescope.builtin")
@@ -23,8 +23,6 @@ vim.keymap.set("n", "<leader>ff", telescope.find_files, {})      -- Find files
 vim.keymap.set("n", "<leader>f/", telescope.live_grep, {})       -- Find in files
 vim.keymap.set("n", "<leader>,", telescope.buffers, {})          -- Find buffer
 vim.keymap.set("n", "<leader>fh", telescope.help_tags, {})       -- Find help
-local tree = require("nvim-tree.api")
-vim.keymap.set("n", "<leader>ft", tree.tree.toggle, {})          -- File explorer
 vim.keymap.set("n", "<leader>cd", vim.lsp.buf.definition, {})    -- Definition
 vim.keymap.set("n", "<leader>cr", vim.lsp.buf.rename, {})        -- Rename
 vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, {})   -- Code actions
@@ -67,6 +65,7 @@ vim.lsp.enable("cssls")
 vim.lsp.enable("sqruff")
 -- Swift
 vim.lsp.enable("sourcekit")
+
 -- Format-on-save
 vim.api.nvim_create_autocmd("BufWritePre", {
     callback = function() vim.lsp.buf.format() end,
@@ -88,70 +87,69 @@ cmp.setup {
         { name = "luasnip",  keyword_length = 2 },
     },
     window = {
-        documentation = cmp.config.window.bordered()
+        documentation = cmp.config.window.bordered(),
     },
     formatting = {
-        fields = { 'menu', 'abbr', 'kind' },
+        fields = { "menu", "abbr", "kind" },
         format = function(entry, item)
             local menu_icon = {
-                nvim_lsp = 'λ',
-                luasnip = '⋗',
-                buffer = 'Ω',
-                path = '🖫',
+                nvim_lsp = "λ",
+                luasnip = "⋗",
+                buffer = "Ω",
+                path = "🖫",
             }
-
             item.menu = menu_icon[entry.source.name]
             return item
         end,
     },
     mapping = {
-        ['<Up>'] = cmp.mapping.select_prev_item(select_opts),
-        ['<Down>'] = cmp.mapping.select_next_item(select_opts),
+        ["<Up>"] = cmp.mapping.select_prev_item(select_opts),
+        ["<Down>"] = cmp.mapping.select_next_item(select_opts),
 
-        ['<C-p>'] = cmp.mapping.select_prev_item(select_opts),
-        ['<C-n>'] = cmp.mapping.select_next_item(select_opts),
+        ["<C-p>"] = cmp.mapping.select_prev_item(select_opts),
+        ["<C-n>"] = cmp.mapping.select_next_item(select_opts),
 
-        ['<C-u>'] = cmp.mapping.scroll_docs(-4),
-        ['<C-d>'] = cmp.mapping.scroll_docs(4),
+        ["<C-u>"] = cmp.mapping.scroll_docs(-4),
+        ["<C-d>"] = cmp.mapping.scroll_docs(4),
 
-        ['<C-e>'] = cmp.mapping.abort(),
-        ['<C-y>'] = cmp.mapping.confirm({ select = true }),
-        ['<CR>'] = cmp.mapping.confirm({ select = false }),
+        ["<C-e>"] = cmp.mapping.abort(),
+        ["<C-y>"] = cmp.mapping.confirm({ select = true }),
+        ["<CR>"] = cmp.mapping.confirm({ select = false }),
 
-        ['<C-f>'] = cmp.mapping(function(fallback)
+        ["<C-f>"] = cmp.mapping(function(fallback)
             if luasnip.jumpable(1) then
                 luasnip.jump(1)
             else
                 fallback()
             end
-        end, { 'i', 's' }),
+        end, { "i", "s" }),
 
-        ['<C-b>'] = cmp.mapping(function(fallback)
+        ["<C-b>"] = cmp.mapping(function(fallback)
             if luasnip.jumpable(-1) then
                 luasnip.jump(-1)
             else
                 fallback()
             end
-        end, { 'i', 's' }),
+        end, { "i", "s" }),
 
-        ['<Tab>'] = cmp.mapping(function(fallback)
-            local col = vim.fn.col('.') - 1
+        ["<Tab>"] = cmp.mapping(function(fallback)
+            local col = vim.fn.col(".") - 1
 
             if cmp.visible() then
                 cmp.select_next_item(select_opts)
-            elseif col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') then
+            elseif col == 0 or vim.fn.getline("."):sub(col, col):match("%s") then
                 fallback()
             else
                 cmp.complete()
             end
-        end, { 'i', 's' }),
+        end, { "i", "s" }),
 
-        ['<S-Tab>'] = cmp.mapping(function(fallback)
+        ["<S-Tab>"] = cmp.mapping(function(fallback)
             if cmp.visible() then
                 cmp.select_prev_item(select_opts)
             else
                 fallback()
             end
-        end, { 'i', 's' }),
+        end, { "i", "s" }),
     },
 }
