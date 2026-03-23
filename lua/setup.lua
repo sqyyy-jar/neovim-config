@@ -1,20 +1,21 @@
-vim.cmd.colorscheme("midnight")
+-- vim.cmd.colorscheme("mellifluous")
+vim.cmd.colorscheme("noctishc")
 vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.mouse = ""
 vim.g.c_syntax_for_h = 1
 vim.opt.winborder = "bold"
 vim.opt.signcolumn = "yes"
+vim.opt.wrap = false
+vim.cin = false
+vim.api.nvim_create_autocmd({ "TermOpen" }, {
+    callback = function()
+        vim.api.nvim_set_option_value("statuscolumn", "", { scope = "local" })
+    end,
+})
 
 -- Autocomplete
 vim.opt.completeopt = { 'menu', 'menuone', 'noselect' }
-local lsp = require("lspconfig")
-local lsp_defaults = lsp.util.default_config
-lsp_defaults.capabilities = vim.tbl_deep_extend(
-    "force",
-    lsp_defaults.capabilities,
-    require("cmp_nvim_lsp").default_capabilities()
-)
 
 -- Keybinds
 local telescope = require("telescope.builtin")
@@ -31,12 +32,19 @@ vim.keymap.set("n", "<leader>cx", telescope.diagnostics, {})     -- Diagnostics
 vim.keymap.set("n", "<leader>cl", vim.diagnostic.open_float, {}) -- Diagnostics
 local cmp = require("cmp")
 vim.keymap.set("i", "<C-Space>", cmp.complete, {})               -- Autocomplete
-vim.keymap.set("n", "<bar>", vim.cmd.vsplit, {})
-vim.keymap.set("n", "<bslash>", vim.cmd.split, {})
+local nvim_tree = require("nvim-tree.api")
+vim.keymap.set("n", "<leader>o", nvim_tree.tree.toggle, {})
+
+vim.keymap.set("n", "<leader>j", function()
+    vim.diagnostic.jump({ count = 1, float = true })
+end)
+vim.keymap.set("n", "<leader>k", function()
+    vim.diagnostic.jump({ count = -1, float = true })
+end)
 
 -- LSP
 -- Rust analyzer
-for _, method in ipairs({ "textDocument/diagnostic", "workspace/diagnostic" }) do
+--[[ for _, method in ipairs({ "textDocument/diagnostic", "workspace/diagnostic" }) do
     local default_diagnostic_handler = vim.lsp.handlers[method]
     vim.lsp.handlers[method] = function(err, result, context, config)
         if err ~= nil and err.code == -32802 then
@@ -44,20 +52,21 @@ for _, method in ipairs({ "textDocument/diagnostic", "workspace/diagnostic" }) d
         end
         return default_diagnostic_handler(err, result, context, config)
     end
-end
--- Zig
-lsp.zls.setup {}
+end ]]
 -- Lua
-lsp.lua_ls.setup {}
+vim.lsp.enable("lua_ls")
 -- OCaml
-lsp.ocamllsp.setup {}
+vim.lsp.enable("ocamllsp")
 -- C
-lsp.clangd.setup {}
+-- vim.lsp.enable("clangd")
 -- JavaScript
--- lsp.biome.setup {}
-lsp.ts_ls.setup {}
-lsp.svelte.setup {}
-lsp.cssls.setup {}
+vim.lsp.enable("ts_ls")
+vim.lsp.enable("svelte")
+vim.lsp.enable("cssls")
+-- SQL
+vim.lsp.enable("sqruff")
+-- Swift
+vim.lsp.enable("sourcekit")
 -- Format-on-save
 vim.api.nvim_create_autocmd("BufWritePre", {
     callback = function() vim.lsp.buf.format() end,

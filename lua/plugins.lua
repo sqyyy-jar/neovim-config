@@ -1,5 +1,19 @@
 return {
     "dasupradyumna/midnight.nvim",
+    "forest-nvim/sequoia.nvim",
+    "https://codeberg.org/m455/pleasant.vim",
+    "iagorrr/noctis-high-contrast.nvim",
+    "ramojus/mellifluous.nvim",
+    -- Indent lines
+    {
+        "lukas-reineke/indent-blankline.nvim",
+        main = "ibl",
+        opts = {
+            -- ∣│
+            indent = { char = "│" },
+            scope = { enabled = false },
+        },
+    },
     -- FASM
     "fedorenchik/fasm.vim",
     -- Zig
@@ -25,26 +39,7 @@ return {
         -- Treesitter
         "nvim-treesitter/nvim-treesitter",
         config = function()
-            local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
-            -- Blink
-            parser_config.blink = {
-                install_info = {
-                    url = "https://github.com/sqyyy-jar/tree-sitter-blink.git",
-                    files = { "src/parser.c" },
-                    branch = "main",
-                    generate_requires_npm = false,
-                    requires_generate_from_grammar = false,
-                },
-                filetype = "blink",
-            }
-            require("nvim-treesitter.configs").setup {
-                -- Languages
-                ensure_installed = { "rust", "lua", "markdown", "markdown_inline", "scheme" },
-                highlight = {
-                    enable = true,
-                    additional_vim_regex_highlighting = false,
-                },
-            }
+            require("nvim-treesitter").install { "rust", "lua", "markdown", "markdown_inline" }
         end,
     },
     {
@@ -71,6 +66,9 @@ return {
     },
     { -- File explorer (tree)
         "nvim-tree/nvim-tree.lua",
+        config = function()
+            require("nvim-tree").setup()
+        end,
     },
     {
         -- Comments
