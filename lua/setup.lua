@@ -1,5 +1,3 @@
-vim.g.mapleader = " "
-
 -- vim.cmd.colorscheme("mellifluous")
 vim.cmd.colorscheme("noctishc")
 vim.opt.number = true
@@ -41,29 +39,16 @@ vim.keymap.set("n", "<leader>k", function()
 end)
 
 -- LSP
--- Rust analyzer
---[[ for _, method in ipairs({ "textDocument/diagnostic", "workspace/diagnostic" }) do
-    local default_diagnostic_handler = vim.lsp.handlers[method]
-    vim.lsp.handlers[method] = function(err, result, context, config)
-        if err ~= nil and err.code == -32802 then
-            return
-        end
-        return default_diagnostic_handler(err, result, context, config)
-    end
-end ]]
--- Lua
 vim.lsp.enable("lua_ls")
--- OCaml
 vim.lsp.enable("ocamllsp")
--- C
--- vim.lsp.enable("clangd")
--- JavaScript
+vim.lsp.enable("clangd")
 vim.lsp.enable("ts_ls")
 vim.lsp.enable("svelte")
 vim.lsp.enable("cssls")
--- SQL
 vim.lsp.enable("sqruff")
--- Swift
+vim.lsp.config("sourcekit", {
+    filetypes = { "swift" },
+})
 vim.lsp.enable("sourcekit")
 
 -- Format-on-save

@@ -1,5 +1,4 @@
 return {
-    "https://codeberg.org/m455/pleasant.vim",
     "iagorrr/noctis-high-contrast.nvim",
     "ramojus/mellifluous.nvim",
     -- Indent lines
