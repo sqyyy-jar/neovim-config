@@ -1,6 +1,7 @@
 return {
     "iagorrr/noctis-high-contrast.nvim",
-    "ramojus/mellifluous.nvim",
+    "ember-theme/nvim",
+    "kkga/vim-envy",
     -- Indent lines
     {
         "lukas-reineke/indent-blankline.nvim",
@@ -12,14 +13,6 @@ return {
     },
     -- LSP configuration
     "neovim/nvim-lspconfig",
-    -- Autocomplete
-    "hrsh7th/nvim-cmp",
-    "hrsh7th/cmp-nvim-lsp",
-    "hrsh7th/cmp-buffer",
-    "hrsh7th/cmp-path",
-    "hrsh7th/cmp-cmdline",
-    -- Snippets
-    "L3MON4D3/LuaSnip",
     -- Rustaceanvim
     {
         "mrcjkb/rustaceanvim",
@@ -27,14 +20,8 @@ return {
         lazy = false,
     },
     {
-        "nvim-treesitter/nvim-treesitter",
-        config = function()
-            require("nvim-treesitter").install { "rust", "lua", "markdown", "markdown_inline" }
-        end,
-    },
-    {
         "nvim-telescope/telescope.nvim",
-        dependencies = { "nvim-lua/plenary.nvim", "nvim-treesitter/nvim-treesitter" },
+        dependencies = { "nvim-lua/plenary.nvim" },
         config = function()
             require("telescope").setup {
                 pickers = {
@@ -55,19 +42,5 @@ return {
         config = function()
             require("nvim-tree").setup()
         end,
-    },
-    "editorconfig/editorconfig-vim",
-    {
-        "numToStr/Comment.nvim",
-        opts = {
-            toggler = {
-                line = "<leader>c/",
-                block = "<leader>cb",
-            },
-            opleader = {
-                line = "<leader>c/",
-                block = "<leader>cb",
-            },
-        },
     },
 }

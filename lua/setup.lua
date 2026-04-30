@@ -1,11 +1,11 @@
--- vim.cmd.colorscheme("mellifluous")
-vim.cmd.colorscheme("noctishc")
+vim.cmd.colorscheme "noctishc"
 vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.mouse = ""
 vim.g.c_syntax_for_h = 1
-vim.opt.winborder = "bold"
+vim.opt.winborder = "rounded"
 vim.opt.signcolumn = "yes"
+vim.opt.colorcolumn = "+1"
 vim.opt.wrap = false
 vim.cin = false
 vim.api.nvim_create_autocmd({ "TermOpen" }, {
@@ -16,7 +16,7 @@ vim.api.nvim_create_autocmd({ "TermOpen" }, {
 vim.opt.completeopt = { "menu", "menuone", "noselect" }
 
 -- Keybinds
-local telescope = require("telescope.builtin")
+local telescope = require "telescope.builtin"
 vim.keymap.set("n", "<leader>ff", telescope.find_files, {})      -- Find files
 vim.keymap.set("n", "<leader>f/", telescope.live_grep, {})       -- Find in files
 vim.keymap.set("n", "<leader>,", telescope.buffers, {})          -- Find buffer
@@ -26,11 +26,8 @@ vim.keymap.set("n", "<leader>cr", vim.lsp.buf.rename, {})        -- Rename
 vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, {})   -- Code actions
 vim.keymap.set("n", "<leader>cx", telescope.diagnostics, {})     -- Diagnostics
 vim.keymap.set("n", "<leader>cl", vim.diagnostic.open_float, {}) -- Diagnostics
-local cmp = require("cmp")
-vim.keymap.set("i", "<C-Space>", cmp.complete, {})               -- Autocomplete
-local nvim_tree = require("nvim-tree.api")
+local nvim_tree = require "nvim-tree.api"
 vim.keymap.set("n", "<leader>o", nvim_tree.tree.toggle, {})
-
 vim.keymap.set("n", "<leader>j", function()
     vim.diagnostic.jump({ count = 1, float = true })
 end)
@@ -38,103 +35,34 @@ vim.keymap.set("n", "<leader>k", function()
     vim.diagnostic.jump({ count = -1, float = true })
 end)
 
+-- TreeSitter
+vim.treesitter.language.add("bash", { path = "/usr/lib/tree-sitter/bash.so" })
+vim.treesitter.language.add("c", { path = "/usr/lib/tree-sitter/c.so" })
+vim.treesitter.language.add("diff", { path = "/usr/lib/tree-sitter/diff.so" })
+vim.treesitter.language.add("json", { path = "/usr/lib/tree-sitter/json.so" })
+vim.treesitter.language.add("lua", { path = "/usr/lib/tree-sitter/lua.so" })
+vim.treesitter.language.add("markdown", { path = "/usr/lib/tree-sitter/markdown.so" })
+vim.treesitter.language.add("markdown_inline", { path = "/usr/lib/tree-sitter/markdown_inline.so" })
+vim.treesitter.language.add("python", { path = "/usr/lib/tree-sitter/python.so" })
+vim.treesitter.language.add("query", { path = "/usr/lib/tree-sitter/query.so" })
+vim.treesitter.language.add("rust", { path = "/usr/lib/tree-sitter/rust.so" })
+vim.treesitter.language.add("vim", { path = "/usr/lib/tree-sitter/vim.so" })
+vim.treesitter.language.add("vimdoc", { path = "/usr/lib/tree-sitter/vimdoc.so" })
+
 -- LSP
-vim.lsp.enable("lua_ls")
-vim.lsp.enable("ocamllsp")
-vim.lsp.enable("clangd")
-vim.lsp.enable("ts_ls")
-vim.lsp.enable("svelte")
-vim.lsp.enable("cssls")
-vim.lsp.enable("sqruff")
+vim.lsp.enable "lua_ls"
+vim.lsp.enable "ocamllsp"
+vim.lsp.enable "clangd"
+vim.lsp.enable "ts_ls"
+vim.lsp.enable "svelte"
+vim.lsp.enable "cssls"
+vim.lsp.enable "sqruff"
 vim.lsp.config("sourcekit", {
     filetypes = { "swift" },
 })
-vim.lsp.enable("sourcekit")
+vim.lsp.enable "sourcekit"
 
 -- Format-on-save
 vim.api.nvim_create_autocmd("BufWritePre", {
     callback = function() vim.lsp.buf.format() end,
 })
-
--- Autocomplete
-local luasnip = require("luasnip")
-local select_opts = { behavior = cmp.SelectBehavior.Select }
-cmp.setup {
-    snippet = {
-        expand = function(args)
-            luasnip.lsp_expand(args.body)
-        end,
-    },
-    sources = {
-        { name = "path" },
-        { name = "nvim_lsp", keyword_length = 1 },
-        { name = "buffer",   keyword_length = 3 },
-        { name = "luasnip",  keyword_length = 2 },
-    },
-    window = {
-        documentation = cmp.config.window.bordered(),
-    },
-    formatting = {
-        fields = { "menu", "abbr", "kind" },
-        format = function(entry, item)
-            local menu_icon = {
-                nvim_lsp = "λ",
-                luasnip = "⋗",
-                buffer = "Ω",
-                path = "🖫",
-            }
-            item.menu = menu_icon[entry.source.name]
-            return item
-        end,
-    },
-    mapping = {
-        ["<Up>"] = cmp.mapping.select_prev_item(select_opts),
-        ["<Down>"] = cmp.mapping.select_next_item(select_opts),
-
-        ["<C-p>"] = cmp.mapping.select_prev_item(select_opts),
-        ["<C-n>"] = cmp.mapping.select_next_item(select_opts),
-
-        ["<C-u>"] = cmp.mapping.scroll_docs(-4),
-        ["<C-d>"] = cmp.mapping.scroll_docs(4),
-
-        ["<C-e>"] = cmp.mapping.abort(),
-        ["<C-y>"] = cmp.mapping.confirm({ select = true }),
-        ["<CR>"] = cmp.mapping.confirm({ select = false }),
-
-        ["<C-f>"] = cmp.mapping(function(fallback)
-            if luasnip.jumpable(1) then
-                luasnip.jump(1)
-            else
-                fallback()
-            end
-        end, { "i", "s" }),
-
-        ["<C-b>"] = cmp.mapping(function(fallback)
-            if luasnip.jumpable(-1) then
-                luasnip.jump(-1)
-            else
-                fallback()
-            end
-        end, { "i", "s" }),
-
-        ["<Tab>"] = cmp.mapping(function(fallback)
-            local col = vim.fn.col(".") - 1
-
-            if cmp.visible() then
-                cmp.select_next_item(select_opts)
-            elseif col == 0 or vim.fn.getline("."):sub(col, col):match("%s") then
-                fallback()
-            else
-                cmp.complete()
-            end
-        end, { "i", "s" }),
-
-        ["<S-Tab>"] = cmp.mapping(function(fallback)
-            if cmp.visible() then
-                cmp.select_prev_item(select_opts)
-            else
-                fallback()
-            end
-        end, { "i", "s" }),
-    },
-}
